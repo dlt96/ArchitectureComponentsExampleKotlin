@@ -53,6 +53,10 @@ class NoteAdapter : ListAdapter<Note, NoteAdapter.NoteHolder>(DiffCallback()) {
 
     }
 
+    fun getNoteAt(position: Int): Note {
+        return getItem(position)
+    }
+
     interface OnItemClickListener {
         fun onItemClick(note: Note)
     }
