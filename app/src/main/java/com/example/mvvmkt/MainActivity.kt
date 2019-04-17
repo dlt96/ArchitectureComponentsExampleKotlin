@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
             notes?.let { adapter.submitList(it)}
         })
 
-        noteViewModel?.insert(Note(0, "hola", "desc", 1))
-
         adapter.setOnItemClickListener( object : NoteAdapter.OnItemClickListener {
             override fun onItemClick(note: Note) {
                 val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
@@ -135,6 +133,5 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 
 }

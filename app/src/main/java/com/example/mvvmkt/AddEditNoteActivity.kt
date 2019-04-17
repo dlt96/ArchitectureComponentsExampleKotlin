@@ -1,5 +1,7 @@
 package com.example.mvvmkt
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -33,6 +35,7 @@ class AddEditNoteActivity : AppCompatActivity() {
         numberPickerPriority?.maxValue = 100//ojo
 
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)//ojo
+        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val intent = intent
 
@@ -54,7 +57,18 @@ class AddEditNoteActivity : AppCompatActivity() {
 
         if (checkFieldsEmpty(title, description)) return
 
+        val data = Intent()
+        data.putExtra(EXTRA_TITLE, title)
+        data.putExtra(EXTRA_DESCRIPTION, description)
+        data.putExtra(EXTRA_PRIORITY, priority)
 
+        val id = intent.getIntExtra(EXTRA_ID, -1)
+        if (id != -1) {
+            data.putExtra(EXTRA_ID, id)
+        }
+
+        setResult(Activity.RESULT_OK, data)
+        finish()
     }
 
     private fun checkFieldsEmpty(vararg fields: String): Boolean {
@@ -67,7 +81,7 @@ class AddEditNoteActivity : AppCompatActivity() {
         return false
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val menuInflater = menuInflater
         menuInflater.inflate(R.menu.add_note_menu, menu)
         return true

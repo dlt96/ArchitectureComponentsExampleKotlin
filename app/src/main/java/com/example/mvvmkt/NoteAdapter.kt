@@ -21,7 +21,7 @@ class NoteAdapter : ListAdapter<Note, NoteAdapter.NoteHolder>(DiffCallback()) {
 
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
             return oldItem.description.equals(newItem.description) &&
-                    oldItem.title.equals(newItem.title) &&
+                    oldItem.title == newItem.title &&
                     oldItem.priority == newItem.priority
         }
 
@@ -43,7 +43,7 @@ class NoteAdapter : ListAdapter<Note, NoteAdapter.NoteHolder>(DiffCallback()) {
         holder.itemView.setOnClickListener {
             if (listener != null && position != RecyclerView.NO_POSITION) {
                 listener!!.onItemClick(getItem(position))
-            }
+            } //TODO: COMRPOBAR SI ESTO ES POR LO QUE DA EL OUT OF BOUNDS Y COMPROBAR EL ICONO DE X EN EDITAR NO FUNCIONA
         }
 
         val note = getItem(position)
