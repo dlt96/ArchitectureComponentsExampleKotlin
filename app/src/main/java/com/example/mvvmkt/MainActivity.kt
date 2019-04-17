@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         @JvmField val ADD_NOTE_REQUEST = 1
-        @JvmField val EDIT_NOTE_REQUEST = 2//to not make getter,setter
+        @JvmField val EDIT_NOTE_REQUEST = 2//to not make getter,settera
     }
 
     private var noteViewModel: NoteViewModel? = null

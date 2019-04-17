@@ -31,9 +31,3 @@ class NoteRepository (
     override fun getAllNotes() = allNotes
     //Room automatically executes this in a BG thread.
 }
-
-//TODO: try the code below instead of doAsync
-
-//        GlobalScope.launch {
-//            noteDao?.deleteAllNotes()
-//        }
