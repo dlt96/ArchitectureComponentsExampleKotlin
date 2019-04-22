@@ -43,10 +43,10 @@ class MainActivity : AppCompatActivity() {
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
         noteViewModel?.getAllNotesFromDB()?.observe(this, Observer { notes ->
-            notes?.let { adapter.submitList(it)}
+            notes?.let { adapter.submitList(it) }
         })
 
-        adapter.setOnItemClickListener( object : NoteAdapter.OnItemClickListener {
+        adapter.setOnItemClickListener(object : NoteAdapter.OnItemClickListener {
             override fun onItemClick(note: Note) {
                 val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
                 intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.title)
@@ -72,8 +72,8 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 noteViewModel?.delete(adapter.getNoteAt(viewHolder.adapterPosition))
-                val snackbar = Snackbar.make(findViewById(R.id.recycler_view), "Note deleted", Snackbar.LENGTH_LONG)
-                snackbar.show()
+                val snackBar = Snackbar.make(findViewById(R.id.recycler_view), "Note deleted", Snackbar.LENGTH_LONG)
+                snackBar.show()
             }
         }).attachToRecyclerView(recyclerView)
     }
@@ -89,8 +89,8 @@ class MainActivity : AppCompatActivity() {
             val note = Note(null, title, description, priority)
             noteViewModel?.insert(note)
 
-            val snackbar = Snackbar.make(findViewById(R.id.recycler_view), "Note Added", Snackbar.LENGTH_LONG)
-            snackbar.show()
+            val snackBar = Snackbar.make(findViewById(R.id.recycler_view), "Note Added", Snackbar.LENGTH_LONG)
+            snackBar.show()
 
         }
 
@@ -107,11 +107,11 @@ class MainActivity : AppCompatActivity() {
             val priority = data.getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY, 1)
 
             val note = Note(null, title, description, priority)
-            note.id =id
+            note.id = id
             noteViewModel?.update(note)
 
-            val snackbar = Snackbar.make(findViewById(R.id.recycler_view), "Note updated", Snackbar.LENGTH_LONG)
-            snackbar.show()
+            val snackBar = Snackbar.make(findViewById(R.id.recycler_view), "Note updated", Snackbar.LENGTH_LONG)
+            snackBar.show()
 
         }
     }
@@ -126,9 +126,9 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.delete_all_notes -> {
                 noteViewModel?.deleteAllNotes()
-                val snackbar =
+                val snackBar =
                     Snackbar.make(findViewById(R.id.recycler_view), "All notes deleted", Snackbar.LENGTH_LONG)
-                snackbar.show()
+                snackBar.show()
             }
         }
         return super.onOptionsItemSelected(item)
