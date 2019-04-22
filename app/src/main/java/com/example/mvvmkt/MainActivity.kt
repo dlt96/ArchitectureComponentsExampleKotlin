@@ -18,8 +18,8 @@ import com.google.android.material.snackbar.Snackbar
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        @JvmField val ADD_NOTE_REQUEST = 1
-        @JvmField val EDIT_NOTE_REQUEST = 2//to not make getter,setters
+        const val ADD_NOTE_REQUEST = 1
+        const val EDIT_NOTE_REQUEST = 2
     }
 
     private var noteViewModel: NoteViewModel? = null

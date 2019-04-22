@@ -13,15 +13,15 @@ import android.widget.Toast
 class AddEditNoteActivity : AppCompatActivity() {
 
     companion object {
-        @JvmField val EXTRA_ID = "EXTRA_ID"
-        @JvmField val EXTRA_TITLE = "EXTRA_TITLE"
-        @JvmField val EXTRA_DESCRIPTION = "EXTRA_DESCRIPTION"
-        @JvmField val EXTRA_PRIORITY = "EXTRA_PRIORITY"
+        const val EXTRA_ID = "EXTRA_ID"
+        const val EXTRA_TITLE = "EXTRA_TITLE"
+        const val EXTRA_DESCRIPTION = "EXTRA_DESCRIPTION"
+        const val EXTRA_PRIORITY = "EXTRA_PRIORITY"
     }
 
-    private var editTextTitle: EditText? = null
-    private var editTextDescription: EditText? = null
-    private var numberPickerPriority: NumberPicker? = null
+    private lateinit var editTextTitle: EditText
+    private lateinit var editTextDescription: EditText
+    private lateinit var numberPickerPriority: NumberPicker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,19 +31,18 @@ class AddEditNoteActivity : AppCompatActivity() {
         editTextDescription = findViewById(R.id.edit_text_description)
         numberPickerPriority = findViewById(R.id.number_picker_priority)
 
-        numberPickerPriority?.minValue = 1
-        numberPickerPriority?.maxValue = 100//ojo
+        numberPickerPriority.minValue = 1
+        numberPickerPriority.maxValue = 100//ojo
 
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)//ojo
-        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_close)
 
         val intent = intent
 
         if (intent.hasExtra(EXTRA_ID)) {
             title = "Edit Note"
-            editTextTitle?.setText(intent.getStringExtra(EXTRA_TITLE))
-            editTextDescription?.setText(intent.getStringExtra(EXTRA_DESCRIPTION))
-            numberPickerPriority?.value = intent.getIntExtra(EXTRA_PRIORITY, 1)
+            editTextTitle.setText(intent.getStringExtra(EXTRA_TITLE))
+            editTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION))
+            numberPickerPriority.value = intent.getIntExtra(EXTRA_PRIORITY, 1)
         } else {
             title = "Add Note"
         }
@@ -51,9 +50,9 @@ class AddEditNoteActivity : AppCompatActivity() {
     }
 
     private fun saveNote() {
-        val title = editTextTitle?.text.toString()
-        val description = editTextDescription?.text.toString()
-        val priority = numberPickerPriority?.value
+        val title = editTextTitle.text.toString()
+        val description = editTextDescription.text.toString()
+        val priority = numberPickerPriority.value
 
         if (checkFieldsEmpty(title, description)) return
 

@@ -12,7 +12,7 @@
             android:id="@+id/edit_text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title"
+            android:hint="@string/title"
             android:inputType="text"/>
 
     <EditText
