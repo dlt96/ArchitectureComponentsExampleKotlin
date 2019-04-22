@@ -43,7 +43,7 @@ dependencies {
     //Room
     implementation("androidx.room:room-runtime:2.1.0-alpha06")
     kapt("androidx.room:room-compiler:2.1.0-alpha06")
-    implementation("androidx.room:room-ktx:2.1.0-alpha06")//coroutines support
+    implementation("androidx.room:room-ktx:2.1.0-alpha06")
 
     //Anko
     implementation("org.jetbrains.anko:anko-common:0.10.5")
