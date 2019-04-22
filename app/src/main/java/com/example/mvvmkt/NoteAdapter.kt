@@ -27,12 +27,6 @@ class NoteAdapter : ListAdapter<Note, NoteAdapter.NoteHolder>(DiffCallback()) {
 
     }
 
-    class NoteHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvTitle = itemView.findViewById<TextView>(R.id.text_view_title)
-        val tvDescription = itemView.findViewById<TextView>(R.id.text_view_description)
-        val tvPriority = itemView.findViewById<TextView>(R.id.text_view_priority)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
         val itemView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.note_item, parent, false)
@@ -40,17 +34,8 @@ class NoteAdapter : ListAdapter<Note, NoteAdapter.NoteHolder>(DiffCallback()) {
     }
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
-        holder.itemView.setOnClickListener {
-            if (listener != null && position != RecyclerView.NO_POSITION) {
-                listener!!.onItemClick(getItem(position))
-            } //TODO: COMRPOBAR SI ESTO ES POR LO QUE DA EL OUT OF BOUNDS Y COMPROBAR EL ICONO DE X EN EDITAR NO FUNCIONA
-        }
-
         val note = getItem(position)
-        holder.tvTitle.text = note.title
-        holder.tvDescription.text = note.description
-        holder.tvPriority.text = note.priority.toString()
-
+        holder.bind(note)
     }
 
     fun getNoteAt(position: Int): Note {
@@ -63,5 +48,26 @@ class NoteAdapter : ListAdapter<Note, NoteAdapter.NoteHolder>(DiffCallback()) {
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
+    }
+
+    inner class NoteHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvTitle: TextView = itemView.findViewById(R.id.text_view_title)
+        private val tvDescription: TextView = itemView.findViewById(R.id.text_view_description)
+        private val tvPriority: TextView = itemView.findViewById(R.id.text_view_priority)
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    listener!!.onItemClick(getItem(position))
+                }
+            }
+        }
+
+        fun bind(note: Note) {
+            tvTitle.text = note.title
+            tvDescription.text = note.description
+            tvPriority.text = note.priority.toString()
+        }
     }
 }
