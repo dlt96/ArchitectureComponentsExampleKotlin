@@ -2,6 +2,7 @@ package com.example.mvvmkt
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var noteViewModel: NoteViewModel? = null
+    private var noteToDelete: Note? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +73,21 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                noteViewModel?.delete(adapter.getNoteAt(viewHolder.adapterPosition))
+                noteToDelete = adapter.getNoteAt(viewHolder.adapterPosition)
+                noteViewModel?.delete(noteToDelete!!)
                 val snackBar = Snackbar.make(findViewById(R.id.recycler_view), "Note deleted", Snackbar.LENGTH_LONG)
+                snackBar.setAction(R.string.snack_bar_undo) {undoDelete()}
+                snackBar.setActionTextColor(Color.YELLOW)
                 snackBar.show()
             }
         }).attachToRecyclerView(recyclerView)
+    }
+
+    private fun undoDelete() {
+        noteToDelete?.let {
+            noteViewModel?.insert(it)
+        }
+        noteToDelete = null
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
