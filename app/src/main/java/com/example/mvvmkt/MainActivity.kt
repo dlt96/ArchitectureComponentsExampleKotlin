@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        title = getString(R.string.main_title)
+
         val spinner: ProgressBar = findViewById(R.id.spinner)
 
         val buttonAdd = findViewById<FloatingActionButton>(R.id.bt_add_note)
