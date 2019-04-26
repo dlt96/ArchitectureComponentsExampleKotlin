@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -23,12 +25,13 @@ class MainActivity : AppCompatActivity() {
         const val EDIT_NOTE_REQUEST = 2
     }
 
-    private var noteViewModel: NoteViewModel? = null
+    private lateinit var noteViewModel: NoteViewModel
     private var noteToDelete: Note? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val spinner: ProgressBar = findViewById(R.id.spinner)
 
         val buttonAdd = findViewById<FloatingActionButton>(R.id.bt_add_note)
         buttonAdd.setOnClickListener {
@@ -44,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
-        noteViewModel?.getAllNotesFromDB()?.observe(this, Observer { notes ->
+        noteViewModel.getAllNotesFromDB().observe(this, Observer { notes ->
             notes?.let { adapter.submitList(it) }
         })
 
@@ -74,18 +77,32 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 noteToDelete = adapter.getNoteAt(viewHolder.adapterPosition)
-                noteViewModel?.delete(noteToDelete!!)
+                noteViewModel.delete(noteToDelete!!)
                 val snackBar = Snackbar.make(findViewById(R.id.recycler_view), "Note deleted", Snackbar.LENGTH_LONG)
                 snackBar.setAction(R.string.snack_bar_undo) {undoDelete()}
                 snackBar.setActionTextColor(Color.YELLOW)
                 snackBar.show()
             }
         }).attachToRecyclerView(recyclerView)
+
+        noteViewModel.spinner.observe(this, Observer { value ->
+            value?.let { show ->
+                spinner.visibility = if (show) View.VISIBLE else View.GONE
+            }
+        })
+
+        // Show a snackbar whenever the [ViewModel.snackbar] is updated a non-null value
+        noteViewModel.snackbar.observe(this, Observer { text ->
+            text?.let {
+                Snackbar.make(findViewById(R.id.recycler_view), text, Snackbar.LENGTH_SHORT).show()
+                noteViewModel.onSnackbarShown()
+            }
+        })
     }
 
     private fun undoDelete() {
         noteToDelete?.let {
-            noteViewModel?.insert(it)
+            noteViewModel.insert(it)
         }
         noteToDelete = null
     }
@@ -99,7 +116,7 @@ class MainActivity : AppCompatActivity() {
             val priority = data.getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY, 1)
 
             val note = Note(null, title, description, priority)
-            noteViewModel?.insert(note)
+            noteViewModel.insert(note)
 
             val snackBar = Snackbar.make(findViewById(R.id.recycler_view), "Note Added", Snackbar.LENGTH_LONG)
             snackBar.show()
@@ -120,7 +137,7 @@ class MainActivity : AppCompatActivity() {
 
             val note = Note(null, title, description, priority)
             note.id = id
-            noteViewModel?.update(note)
+            noteViewModel.update(note)
 
             val snackBar = Snackbar.make(findViewById(R.id.recycler_view), "Note updated", Snackbar.LENGTH_LONG)
             snackBar.show()
@@ -137,7 +154,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.delete_all_notes -> {
-                noteViewModel?.deleteAllNotes()
+                noteViewModel.deleteAllNotes()
                 val snackBar =
                     Snackbar.make(findViewById(R.id.recycler_view), "All notes deleted", Snackbar.LENGTH_LONG)
                 snackBar.show()

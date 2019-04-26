@@ -11,20 +11,25 @@ abstract class NoteDatabase: RoomDatabase() {
     abstract fun noteDao(): NoteDao
 
     companion object {
-        var instance: NoteDatabase? = null
+        @Volatile//Mark meaning that writes to this field are immediately made visible to other threads.
+        private var INSTANCE: NoteDatabase? = null
 
-        fun getInstance(context: Context): NoteDatabase? {
-            if (instance == null) {
-                synchronized(NoteDatabase::class) {
-                    instance = Room.databaseBuilder(context.applicationContext, NoteDatabase::class.java, "myDB").build()
-                }
+        fun getInstance(context: Context): NoteDatabase {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
             }
 
-            return instance
-        }
+            synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    NoteDatabase::class.java,
+                    "myDB"
+                ).build()
+                INSTANCE = instance
+                return instance
+            }
 
-        fun destroyDataBase() {
-            instance = null
         }
     }
 }

@@ -35,10 +35,13 @@ dependencies {
     androidTestImplementation("androidx.test:runner:1.1.0-alpha4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.1.0-alpha4")
 
+    //Coroutines
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1")
+
     //ViewModel and LiveData
-    implementation("androidx.lifecycle:lifecycle-viewmodel:2.0.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
-    kapt("androidx.lifecycle:lifecycle-compiler:2.0.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-alpha02")
 
     //Room
     implementation("androidx.room:room-runtime:2.1.0-alpha06")
