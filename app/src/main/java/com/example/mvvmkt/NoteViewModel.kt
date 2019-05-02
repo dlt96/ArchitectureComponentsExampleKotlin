@@ -1,10 +1,7 @@
 package com.example.mvvmkt
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,12 +18,10 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private val _snackBar = MutableLiveData<String>()
-    val snackbar: LiveData<String>
-        get() = _snackBar
+    val snackbar: LiveData<String> = Transformations.map(_snackBar) {snackbar -> snackbar}
 
     private val _spinner = MutableLiveData<Boolean>()
-    val spinner: LiveData<Boolean>
-        get() = _spinner
+    val spinner: LiveData<Boolean> = Transformations.map(_spinner) { show -> show }
 
     fun insert(note: Note) =
         launchDataLoad{ repository.insert(note) }
