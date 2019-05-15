@@ -2,6 +2,7 @@ package com.example.mvvmkt
 
 import android.app.Application
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.jetbrains.anko.doAsync
 
@@ -12,18 +13,23 @@ class NoteRepository(
     private val allNotes = noteDao.getAllNotes()
 
     override suspend fun insert(note: Note) {
+        delay(1000)
         withContext(Dispatchers.IO) { noteDao.insert(note) }
     }
 
     override suspend fun update(note: Note) {
+        delay(1000)
         withContext(Dispatchers.IO) { noteDao.update(note) }
     }
 
     override suspend fun delete(note: Note) {
-        withContext(Dispatchers.IO) { noteDao.delete(note) }
+        withContext(Dispatchers.IO) {
+            delay(1200)
+            noteDao.delete(note) }
     }
 
     override suspend fun deleteAllNotes() {
+        delay(1500)
         withContext(Dispatchers.IO) { noteDao.deleteAllNotes() }
     }
 

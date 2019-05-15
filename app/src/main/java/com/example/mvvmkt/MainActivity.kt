@@ -80,10 +80,6 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 noteToDelete = adapter.getNoteAt(viewHolder.adapterPosition)
                 noteViewModel.delete(noteToDelete!!)
-                val snackBar = Snackbar.make(findViewById(R.id.recycler_view), "Note deleted", Snackbar.LENGTH_LONG)
-                snackBar.setAction(R.string.snack_bar_undo) {undoDelete()}
-                snackBar.setActionTextColor(Color.YELLOW)
-                snackBar.show()
             }
         }).attachToRecyclerView(recyclerView)
 
@@ -96,7 +92,14 @@ class MainActivity : AppCompatActivity() {
         // Show a snackbar whenever the [ViewModel.snackbar] is updated a non-null value
         noteViewModel.snackbar.observe(this, Observer { text ->
             text?.let {
-                Snackbar.make(findViewById(R.id.recycler_view), text, Snackbar.LENGTH_SHORT).show()
+               val snackBar = Snackbar.make(findViewById(R.id.recycler_view), text, Snackbar.LENGTH_SHORT)
+
+                if (text == "Note deleted") {
+                    snackBar.setAction(R.string.snack_bar_undo) {undoDelete()}
+                    snackBar.setActionTextColor(Color.YELLOW)
+                }
+
+                snackBar.show()
                 noteViewModel.onSnackbarShown()
             }
         })
@@ -119,10 +122,6 @@ class MainActivity : AppCompatActivity() {
 
             val note = Note(null, title, description, priority)
             noteViewModel.insert(note)
-
-            val snackBar = Snackbar.make(findViewById(R.id.recycler_view), "Note Added", Snackbar.LENGTH_LONG)
-            snackBar.show()
-
         }
 
         if (requestCode == EDIT_NOTE_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -140,10 +139,6 @@ class MainActivity : AppCompatActivity() {
             val note = Note(null, title, description, priority)
             note.id = id
             noteViewModel.update(note)
-
-            val snackBar = Snackbar.make(findViewById(R.id.recycler_view), "Note updated", Snackbar.LENGTH_LONG)
-            snackBar.show()
-
         }
     }
 
@@ -157,9 +152,6 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.delete_all_notes -> {
                 noteViewModel.deleteAllNotes()
-                val snackBar =
-                    Snackbar.make(findViewById(R.id.recycler_view), "All notes deleted", Snackbar.LENGTH_LONG)
-                snackBar.show()
             }
         }
         return super.onOptionsItemSelected(item)

@@ -3,6 +3,7 @@ package com.example.mvvmkt
 import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -23,31 +24,35 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     private val _spinner = MutableLiveData<Boolean>()
     val spinner: LiveData<Boolean> = Transformations.map(_spinner) { show -> show }
 
-    fun insert(note: Note) =
-        launchDataLoad{ repository.insert(note) }
+    fun insert(note: Note) {
+        launchDataLoad({ repository.insert(note) },"Note added" )
+    }
 
-    fun update(note: Note) =
-        launchDataLoad{ repository.update(note) }
+    fun update(note: Note) {
+        launchDataLoad({ repository.update(note) }, "Note edited")
+    }
 
-    fun delete(note: Note) =
-        launchDataLoad{ repository.delete(note) }
+    fun delete(note: Note) {
+        launchDataLoad({ repository.delete(note) }, "Note deleted")
+    }
+
 
     fun deleteAllNotes() {
-        launchDataLoad{ repository.deleteAllNotes() }
+        launchDataLoad( { repository.deleteAllNotes() }, "All notes deleted")
     }
 
     fun getAllNotesFromDB() = allNotes
 
-    private fun launchDataLoad(block: suspend () -> Unit): Job {
+    private fun launchDataLoad(block: suspend () -> Unit, snackbarTitle: String): Job {
         return viewModelScope.launch {
             try {
                 _spinner.value = true
-                delay(500)
                 block()
             } catch (error: NoteRepository.TitleRefreshError) {
                 _snackBar.value = error.message
             } finally {
                 _spinner.value = false
+                _snackBar.value = snackbarTitle
             }
         }
     }
