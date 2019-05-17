@@ -1,6 +1,7 @@
-package com.example.mvvmkt
+package com.example.mvvmkt.data.repository
 
 import androidx.lifecycle.LiveData
+import com.example.mvvmkt.data.db.entity.Note
 
 interface NoteRepositoryContractor {
 

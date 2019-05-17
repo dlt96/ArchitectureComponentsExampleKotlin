@@ -1,7 +1,8 @@
-package com.example.mvvmkt
+package com.example.mvvmkt.data.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.mvvmkt.data.db.entity.Note
 
 @Dao
 interface NoteDao {

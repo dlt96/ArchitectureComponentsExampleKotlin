@@ -1,10 +1,11 @@
-package com.example.mvvmkt
+package com.example.mvvmkt.ui
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.mvvmkt.data.db.entity.Note
+import com.example.mvvmkt.data.db.NoteDatabase
+import com.example.mvvmkt.data.repository.NoteRepository
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {

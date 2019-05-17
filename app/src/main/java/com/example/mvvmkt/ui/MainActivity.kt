@@ -1,4 +1,4 @@
-package com.example.mvvmkt
+package com.example.mvvmkt.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mvvmkt.R
+import com.example.mvvmkt.data.db.entity.Note
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 

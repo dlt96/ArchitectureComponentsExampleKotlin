@@ -1,4 +1,4 @@
-package com.example.mvvmkt
+package com.example.mvvmkt.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mvvmkt.R
+import com.example.mvvmkt.data.db.entity.Note
 
 
 class NoteAdapter : ListAdapter<Note, NoteAdapter.NoteHolder>(DiffCallback()) {

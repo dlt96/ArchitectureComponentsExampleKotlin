@@ -1,10 +1,10 @@
-package com.example.mvvmkt
+package com.example.mvvmkt.data.repository
 
-import android.app.Application
+import com.example.mvvmkt.data.db.entity.Note
+import com.example.mvvmkt.data.db.NoteDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import org.jetbrains.anko.doAsync
 
 class NoteRepository(
     private val noteDao: NoteDao

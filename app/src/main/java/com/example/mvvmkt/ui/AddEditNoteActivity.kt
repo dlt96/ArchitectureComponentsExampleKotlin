@@ -1,4 +1,4 @@
-package com.example.mvvmkt
+package com.example.mvvmkt.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Toast
+import com.example.mvvmkt.R
 
 class AddEditNoteActivity : AppCompatActivity() {
 

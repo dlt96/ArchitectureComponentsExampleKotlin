@@ -1,4 +1,4 @@
-package com.example.mvvmkt
+package com.example.mvvmkt.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
